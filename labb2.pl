@@ -84,6 +84,15 @@ checkLine([Nr, P, impel(X,Y)], ValidPartProofs) :-!,
 checkLine([Nr, P, contel(X)], ValidPartProofs) :-
   member([X, cont, _], ValidPartProofs).
 
+  %negnegel
+checkLine([Nr, P, negnegel(X)], ValidPartProofs) :-
+  member([X, not(not(P)), _], ValidPartProofs).
+
+  %MT
+checkLine([Nr, not(P), mt(X,Y)], ValidPartProofs) :-
+  member([X, imp(P,Grej), _], ValidPartProofs),
+  member([Y, not(Grej), _], ValidPartProofs).
+
 
 
 
