@@ -94,6 +94,8 @@ checkLine([Nr, P, impel(X,Y)], ValidPartProofs) :-!,
 checkLine([Nr, P, contel(X)], ValidPartProofs) :-
   member([X, cont, _], ValidPartProofs).
 
+  %lem
+checkLine([Nr, or(P, not(P)), lem], ValidPartProofs).
 
 
 
