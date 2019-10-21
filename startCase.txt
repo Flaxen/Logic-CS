@@ -1,10 +1,6 @@
-[p,q, and(p,q)].
-p.
+[cont, a].
+b.
 [
-[1, q, premise],
-[2, and(p,q), premise],
-[2, p, andel1(2)],
-[3, q, andel2(2)],
-[4, p, copy(2)]
-
+[5, cont, premise],
+[-23, b, contel(5)]
 ].
