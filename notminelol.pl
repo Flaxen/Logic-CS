@@ -53,7 +53,9 @@ adding each checked line of proof to a list we will use to check our following l
 */
 check_proof([], _).
 check_proof([H|T], CheckedProof):-
-check_line(H, CheckedProof), addList(CheckedProof, H, NewCheckedProof), check_proof(T, NewCheckedProof).
+  check_line(H, CheckedProof),
+  addList(CheckedProof, H, NewCheckedProof),
+  check_proof(T, NewCheckedProof).
 
 
 

@@ -1,5 +1,6 @@
-[p].
+[p,q].
 p.
 [
+[2, q, premise],
 [1, p, premise]
 ].
