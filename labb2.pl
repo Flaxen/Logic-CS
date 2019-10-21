@@ -1,7 +1,7 @@
 
 % used implementations from lab 1
 
-last([Greger|[]], [], Greger).
+last([First|[]], [], First).
 last([H|T], [H|R], X) :-
   last(T, R, X).
 
