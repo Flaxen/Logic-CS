@@ -26,6 +26,7 @@ checkGoal(Goal, Proof) :-
 
 checkProof(Prems, Proof) :-
   % TODO: Implement plz
+  true.
 
 
 
