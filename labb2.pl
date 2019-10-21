@@ -75,7 +75,15 @@ checkLine([Nr, or(P,Q), orint1(X)], [Nr, or(P,Q), orint1(X)]):-
 checkLine([Nr, or(P,Q), orint2(X)], [Nr, or(P,Q), orint2(X)]):-
   member([X, Q, _], ValidPartProofs).
 
+% trasig
+%   % negel
+% checkLine([Nr, cont, negel(X,Y)], [Nr, cont, negel(X,Y)]):-
+%   member([X, P, _], ValidPartProofs),
+%   member([Y, P, _], ValidPartProofs).
 
+  % negnegint
+checkLine([Nr, P, negnegint(X)], [Nr, P, negnegint(X)]):-
+  member([X, not(not(P)), _], ValidPartProofs).
 
 
 
