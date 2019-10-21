@@ -41,7 +41,7 @@ lineRow([Nr, _, _], Nr).
 lineResult([_, Result, _], Result).
 lineOpertaion([_, _, Operation], Operation).
 
-  % Line checks
+% Line checks
 
   % premise
 checkLine([Nr, P, premise], ValidPartProofs) :-
@@ -75,6 +75,15 @@ checkLine([Nr, or(P,Q), orint1(X)], ValidPartProofs):-
 checkLine([Nr, or(P,Q), orint2(X)], ValidPartProofs):-
   member([X, Q, _], ValidPartProofs).
 
+  % negel
+checkLine([Nr, cont, negel(X,Y)], ValidPartProofs):-
+  member([X, P, _], ValidPartProofs),
+  member([Y, not(P), _], ValidPartProofs).
+
+  % negnegint
+checkLine([Nr, P, negnegint(X)], ValidPartProofs):-
+  member([X, not(not(P)), _], ValidPartProofs).
+
   % impel
 checkLine([Nr, P, impel(X,Y)], ValidPartProofs) :-!,
   member([X, Origin, _], ValidPartProofs),!,
@@ -92,6 +101,9 @@ checkLine([Nr, P, negnegel(X)], ValidPartProofs) :-
 checkLine([Nr, not(P), mt(X,Y)], ValidPartProofs) :-
   member([X, imp(P,Grej), _], ValidPartProofs),
   member([Y, not(Grej), _], ValidPartProofs).
+
+  %lem
+checkLine([Nr, or(P, not(P)), lem], ValidPartProofs).
 
 
 
