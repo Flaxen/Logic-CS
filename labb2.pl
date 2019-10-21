@@ -30,7 +30,7 @@ checkProof(_, []).
 checkProof(Prems, [H|T]) :-
   checkLine(H, ValidPartProofs),
   checkProof([H|ValidPartProofs], T),
-  % write(ValidPartProofs).
+  write(ValidPartProofs),!.
 
 
 
@@ -42,9 +42,22 @@ lineResult([_, Result, _], Result).
 lineOpertaion([_, _, Operation], Operation).
 
   % Line checks
-checkLine([Nr, P, premise], [Nr, P, premise]) :-
-  member(P, Prems), !.
 
+  % premise
+checkLine([Nr, P, premise], [Nr, P, premise]) :-
+  member(P, Prems).
+
+  % copy
+checkLine([Nr, P, copy(X)], [Nr, P, copy(X)]) :-
+  member([X, P, _], ValidPartProofs).
+
+  % andel1
+checkLine([Nr, P, andel1(X)], [Nr, P, andel1(X)]) :-
+  member([X, and(P,_), _], ValidPartProofs).
+
+  % andel2
+checkLine([Nr, P, andel2(X)], [Nr, P, andel2(X)]) :-
+  member([X, and(_,P), _], ValidPartProofs).
 
 
 
