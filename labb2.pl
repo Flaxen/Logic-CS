@@ -30,7 +30,7 @@ checkProof(_, []).
 checkProof(Prems, [H|T]) :-
   checkLine(H, ValidPartProofs),
   checkProof([H|ValidPartProofs], T),
-  % write(ValidPartProofs).
+  write(ValidPartProofs).
 
 
 
@@ -44,9 +44,21 @@ lineOpertaion([_, _, Operation], Operation).
   % Line checks
 checkLine([Nr, P, premise], [Nr, P, premise]) :-
   member(P, Prems), !.
+  % assumption
+% checkLine([[Nr, P, assumption]|_], [Nr, P , assumption]).
 
+  % andint
+checkLine([Nr, and(P,Q), andint(X,Y)], [Nr, and(P,Q), andint(X,Y)]):-
+  member([X, P, _], ValidPartProofs),
+  member([Y, Q, _], ValidPartProofs).
 
+  % orint1
+checkLine([Nr, or(P,Q), orint1(X)], [Nr, or(P,Q), orint1(X)]):-
+  member([X, P, _], ValidPartProofs).
 
+  % orint2
+checkLine([Nr, or(P,Q), orint2(X)], [Nr, or(P,Q), orint2(X)]):-
+  member([X, Q, _], ValidPartProofs).
 
 
 
