@@ -1,4 +1,4 @@
 
-for file in tests/*; do
+for file in tests/*.txt; do
 	prolog -q -l tests/testRunner.pl "tests/$(basename "$file")"
 done
