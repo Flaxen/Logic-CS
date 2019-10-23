@@ -29,8 +29,8 @@ checkGoal(Goal, Proof) :-
 checkProof(_, []).
 checkProof(ValidPartProofs, [H|T]) :-
   checkLine(H, ValidPartProofs),
-  checkProof([H|ValidPartProofs], T),
-  write(ValidPartProofs),!.
+  checkProof([H|ValidPartProofs], T).
+  % write(ValidPartProofs),!.
 
 
 
@@ -44,66 +44,66 @@ lineOpertaion([_, _, Operation], Operation).
 % Line checks
 
   % premise
-checkLine([Nr, P, premise], ValidPartProofs) :-
+checkLine([_, P, premise], ValidPartProofs) :-
   member(P, ValidPartProofs).
 
   % assumption
 % checkLine([[Nr, P, assumption]|_], [Nr, P , assumption]).
 
   % andint
-checkLine([Nr, and(P,Q), andint(X,Y)], ValidPartProofs):-
+checkLine([_, and(P,Q), andint(X,Y)], ValidPartProofs):-
   member([X, P, _], ValidPartProofs),
   member([Y, Q, _], ValidPartProofs).
 
   % copy
-checkLine([Nr, P, copy(X)], ValidPartProofs) :-
+checkLine([_, P, copy(X)], ValidPartProofs) :-
   member([X, P, _], ValidPartProofs).
 
   % andel1
-checkLine([Nr, P, andel1(X)], ValidPartProofs) :-
+checkLine([_, P, andel1(X)], ValidPartProofs) :-
   member([X, and(P,_), _], ValidPartProofs).
 
   % andel2
-checkLine([Nr, P, andel2(X)], ValidPartProofs) :-
+checkLine([_, P, andel2(X)], ValidPartProofs) :-
   member([X, and(_,P), _], ValidPartProofs).
 
   % orint1
-checkLine([Nr, or(P,Q), orint1(X)], ValidPartProofs):-
+checkLine([_, or(P,_), orint1(X)], ValidPartProofs):-
   member([X, P, _], ValidPartProofs).
 
   % orint2
-checkLine([Nr, or(P,Q), orint2(X)], ValidPartProofs):-
+checkLine([_, or(_,Q), orint2(X)], ValidPartProofs):-
   member([X, Q, _], ValidPartProofs).
 
   % negel
-checkLine([Nr, cont, negel(X,Y)], ValidPartProofs):-
+checkLine([_, cont, negel(X,Y)], ValidPartProofs):-
   member([X, P, _], ValidPartProofs),
   member([Y, neg(P), _], ValidPartProofs).
 
   % negnegint
-checkLine([Nr, P, negnegint(X)], ValidPartProofs):-
+checkLine([_, P, negnegint(X)], ValidPartProofs):-
   member([X, neg(neg(P)), _], ValidPartProofs).
 
   % impel
-checkLine([Nr, P, impel(X,Y)], ValidPartProofs) :-!,
+checkLine([_, P, impel(X,Y)], ValidPartProofs) :-!,
   member([X, Origin, _], ValidPartProofs),!,
   member([Y, imp(Origin,P), _], ValidPartProofs),!.
 
   %contel
-checkLine([Nr, P, contel(X)], ValidPartProofs) :-
+checkLine([_, _, contel(X)], ValidPartProofs) :-
   member([X, cont, _], ValidPartProofs).
 
   %negnegel
-checkLine([Nr, P, negnegel(X)], ValidPartProofs) :-
+checkLine([_, P, negnegel(X)], ValidPartProofs) :-
   member([X, neg(neg(P)), _], ValidPartProofs).
 
   %MT
-checkLine([Nr, neg(P), mt(X,Y)], ValidPartProofs) :-
+checkLine([_, neg(P), mt(X,Y)], ValidPartProofs) :-
   member([X, imp(P,Grej), _], ValidPartProofs),
   member([Y, neg(Grej), _], ValidPartProofs).
 
   %lem
-checkLine([Nr, or(P, neg(P)), lem], ValidPartProofs).
+checkLine([_, or(P, neg(P)), lem], _).
 
 
 %   %testaroomcgee
@@ -115,6 +115,18 @@ checkLine([Nr, or(P, neg(P)), lem], ValidPartProofs).
 
 
 % boxStatement(p, cont)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
