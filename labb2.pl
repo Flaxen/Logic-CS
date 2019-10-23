@@ -1,9 +1,9 @@
 
 % used implementations from lab 1
 % (InputList, RestList, LastElement)
-last([First|[]], First).
-last([_|T], X) :-
-  last(T, X).
+last([First|[]], [], First).
+last([H|T], [H|R], X) :-
+  last(T, R, X).
 
 
 
@@ -23,7 +23,7 @@ valid_proof(Prems, Goal, Proof) :-
 % checks that the proof actually proofs what we want to prove.
 % achieved by a simple comparison of the correct elements.
 checkGoal(Goal, Proof) :-
-  last(Proof, LastLine),
+  last(Proof, _, LastLine),
   lineResult(LastLine, Goal), !.
 
 checkProof(_, []).
@@ -78,7 +78,7 @@ checkLine([_, or(_,Q), orint2(X)], ValidPartProofs):-
   % negel
 checkLine([_, cont, negel(X,Y)], ValidPartProofs):-
   member([X, P, _], ValidPartProofs),
-  member([Y, neg(P), _], ValidPartProofs).
+  member([Y, not(P), _], ValidPartProofs).
 
   % negnegint
 checkLine([_, P, negnegint(X)], ValidPartProofs):-
@@ -100,21 +100,17 @@ checkLine([_, P, negnegel(X)], ValidPartProofs) :-
   %MT
 checkLine([_, neg(P), mt(X,Y)], ValidPartProofs) :-
   member([X, imp(P,Grej), _], ValidPartProofs),
-  member([Y, neg(Grej), _], ValidPartProofs).
+  member([Y, not(Grej), _], ValidPartProofs).
 
   %lem
 checkLine([_, or(P, neg(P)), lem], _).
 
 
-%   %testaroomcgee
-% checkLine([Nr, neg(P), negint(X,Y)], ValidPartProofs) :-
-% member([X, imp(P,Grej), _], ValidPartProofs),
-% member([Y, neg(Grej), _], ValidPartProofs).
 
 
 
 
-% boxStatement(p, cont)
+
 
 
 
