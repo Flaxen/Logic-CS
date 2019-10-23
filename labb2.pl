@@ -1,9 +1,9 @@
 
 % used implementations from lab 1
 % (InputList, RestList, LastElement)
-last([First|[]], [], First).
-last([H|T], [H|R], X) :-
-  last(T, R, X).
+last([First|[]], First).
+last([_|T], X) :-
+  last(T, X).
 
 
 
@@ -23,7 +23,7 @@ valid_proof(Prems, Goal, Proof) :-
 % checks that the proof actually proofs what we want to prove.
 % achieved by a simple comparison of the correct elements.
 checkGoal(Goal, Proof) :-
-  last(Proof, _, LastLine),
+  last(Proof, LastLine),
   lineResult(LastLine, Goal), !.
 
 checkProof(_, []).
@@ -78,11 +78,11 @@ checkLine([Nr, or(P,Q), orint2(X)], ValidPartProofs):-
   % negel
 checkLine([Nr, cont, negel(X,Y)], ValidPartProofs):-
   member([X, P, _], ValidPartProofs),
-  member([Y, not(P), _], ValidPartProofs).
+  member([Y, neg(P), _], ValidPartProofs).
 
   % negnegint
 checkLine([Nr, P, negnegint(X)], ValidPartProofs):-
-  member([X, not(not(P)), _], ValidPartProofs).
+  member([X, neg(neg(P)), _], ValidPartProofs).
 
   % impel
 checkLine([Nr, P, impel(X,Y)], ValidPartProofs) :-!,
@@ -95,21 +95,26 @@ checkLine([Nr, P, contel(X)], ValidPartProofs) :-
 
   %negnegel
 checkLine([Nr, P, negnegel(X)], ValidPartProofs) :-
-  member([X, not(not(P)), _], ValidPartProofs).
+  member([X, neg(neg(P)), _], ValidPartProofs).
 
   %MT
-checkLine([Nr, not(P), mt(X,Y)], ValidPartProofs) :-
+checkLine([Nr, neg(P), mt(X,Y)], ValidPartProofs) :-
   member([X, imp(P,Grej), _], ValidPartProofs),
-  member([Y, not(Grej), _], ValidPartProofs).
+  member([Y, neg(Grej), _], ValidPartProofs).
 
   %lem
-checkLine([Nr, or(P, not(P)), lem], ValidPartProofs).
+checkLine([Nr, or(P, neg(P)), lem], ValidPartProofs).
+
+
+%   %testaroomcgee
+% checkLine([Nr, neg(P), negint(X,Y)], ValidPartProofs) :-
+% member([X, imp(P,Grej), _], ValidPartProofs),
+% member([Y, neg(Grej), _], ValidPartProofs).
 
 
 
 
-
-
+% boxStatement(p, cont)
 
 
 
