@@ -1,6 +1,0 @@
-[cont, a].
-b.
-[
-[5, cont, premise],
-[-23, b, contel(5)]
-].
