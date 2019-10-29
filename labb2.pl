@@ -32,10 +32,23 @@ checkProof(ValidPartProofs, [H|T]) :-
   checkProof([H|ValidPartProofs], T).
   % write(ValidPartProofs),!.
 
+% checkProof(ValidPartProofs, [[H|T]|RestOfProof]) :-
+%   checkAsusumption(H),
+%   checkBox([H|ValidPartProofs],T),
+%   checkProof(ValidPartProofs,RestOfProof).
+
+  % Test komihåg början och slut på box
+checkProof(ValidPartProofs, [[H|T]|RestOfProof]) :-
+  checkAsusumption(H),
+  checkBox([H|ValidPartProofs],T),
+  last([H|T], Last),
+  checkProof([[H|[Last]]|ValidPartProofs],RestOfProof).
+
+
 % checks that the box is correct.
-checkBox(ValidPartProofs, [[H|T]]):-
-  checkLine(H, ValidPartProofs),
-  checkBox([H,ValidPartProofs],[[T]]).
+checkBox(_,[]).
+checkBox(ValidPartProofs, [H|T]):-
+  checkProof(ValidPartProofs,[H|T]).
 
 
 % Line operations
@@ -44,14 +57,13 @@ lineRow([Nr, _, _], Nr).
 lineResult([_, Result, _], Result).
 lineOpertaion([_, _, Operation], Operation).
 
-% Line checks
+% Assumption check
+checkAsusumption([_, _, assumption]).
 
+% Line checks
   % premise
 checkLine([_, P, premise], ValidPartProofs) :-
   member(P, ValidPartProofs).
-
-  % assumption
-checkLine([[_, _, assumption]], _).
 
   % copy
 checkLine([_, P, copy(X)], ValidPartProofs) :-
@@ -79,15 +91,24 @@ checkLine([_, or(_,Q), orint2(X)], ValidPartProofs):-
   member([X, Q, _], ValidPartProofs).
 
   % orel
+checkLine([_, A, orel(X,Y,U,V,W)], ValidPartProofs):-
+  member([X, or(P,Q), _], ValidPartProofs),
+  member([[Y, P, assumption], [U, A, _]], ValidPartProofs),
+  member([[V, Q, assumption], [W, A, _]], ValidPartProofs).
 
   % impint
+checkLine([_, imp(P,Q), impint(X,Y)], ValidPartProofs):-
+  member([[X, P, assumption], [Y, Q, _]], ValidPartProofs).
 
   % impel
 checkLine([_, P, impel(X,Y)], ValidPartProofs) :-!,
   member([X, Origin, _], ValidPartProofs),!,
   member([Y, imp(Origin,P), _], ValidPartProofs),!.
 
+%  Inte testad!!!!!!
   % negint
+% checkLine([_, neg(P), negint(X,Y)], ValidPartProofs):-
+%   member([[X, P, assumption], [Y, cont, _]], ValidPartProofs).
 
   % negel
 checkLine([_, cont, negel(X,Y)], ValidPartProofs):-
