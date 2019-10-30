@@ -32,20 +32,15 @@ checkProof(ValidPartProofs, [H|T]) :-
   checkProof([H|ValidPartProofs], T).
   % write(ValidPartProofs),!.
 
-% checkProof(ValidPartProofs, [[H|T]|RestOfProof]) :-
-%   checkAsusumption(H),
-%   checkBox([H|ValidPartProofs],T),
-%   checkProof(ValidPartProofs,RestOfProof).
-
   % Test komihåg början och slut på box
 checkProof(ValidPartProofs, [[H|T]|RestOfProof]) :-
   checkAsusumption(H),
-  checkBox([H|ValidPartProofs],T),
+  checkBox([H|ValidPartProofs], T),
   last([H|T], Last),
   checkProof([[H|[Last]]|ValidPartProofs],RestOfProof).
 
-
-% checks that the box is correct.
+% Box operations
+  % Checks that the box is correct.
 checkBox(_,[]).
 checkBox(ValidPartProofs, [H|T]):-
   checkProof(ValidPartProofs,[H|T]).
@@ -120,8 +115,8 @@ checkLine([_, _, contel(X)], ValidPartProofs) :-
   member([X, cont, _], ValidPartProofs).
 
   % negnegint
-checkLine([_, P, negnegint(X)], ValidPartProofs):-
-  member([X, neg(neg(P)), _], ValidPartProofs).
+checkLine([_, neg(neg(P)), negnegint(X)], ValidPartProofs):-
+  member([X, P, _], ValidPartProofs).
 
   %negnegel
 checkLine([_, P, negnegel(X)], ValidPartProofs) :-
