@@ -1,5 +1,5 @@
 [].
-or(p, not(p)).
+or(p, neg(p)).
 [
-  [1, or(p, not(p)), lem]
+  [1, or(p, neg(p)), lem]
 ].

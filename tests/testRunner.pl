@@ -5,19 +5,37 @@ main :-
     current_prolog_flag(argv, [Arg1, Arg2]),
     [labb2],
     Arg2='invalid',
-    write(Arg1),nl,
-    write('nej'), nl,
+    \+verify(Arg1),
 
-    \+verify(Arg1) 
+    write(Arg1),
+    truePrint, halt.
+
+main :-
+    current_prolog_flag(argv, [Arg1, Arg2]),
+    [labb2],
+    Arg2='invalid',
+    verify(Arg1),
+
+    write(Arg1),
+    falsePrint, halt.
+
 main :-
   current_prolog_flag(argv, [Arg1, Arg2]),
   [labb2],
   Arg2='valid',
-  write(Arg1),nl,
-  write('validlol'), nl,
+  verify(Arg1),
 
-  verify(Arg1) -> truePrint, halt; falsePrint, halt.
+  write(Arg1),
+  truePrint, halt.
 
+main :-
+  current_prolog_flag(argv, [Arg1, Arg2]),
+  [labb2],
+  Arg2='valid',
+  \+verify(Arg1),
+
+  write(Arg1),
+  falsePrint, halt.
 
 
 truePrint :-
