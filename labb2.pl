@@ -26,13 +26,13 @@ checkGoal(Goal, Proof) :-
   last(Proof, LastLine),
   lineResult(LastLine, Goal), !.
 
+% Main check function. Checks all lines.
 checkProof(_, []).
 checkProof(ValidPartProofs, [H|T]) :-
   checkLine(H, ValidPartProofs),
   checkProof([H|ValidPartProofs], T).
-  % write(ValidPartProofs),!.
 
-  % Test komihåg början och slut på box
+  % Main check function for boxes
 checkProof(ValidPartProofs, [[H|T]|RestOfProof]) :-
   checkAsusumption(H),
   checkBox([H|ValidPartProofs], T),
@@ -132,34 +132,3 @@ checkLine([_, P, pbc(X,Y)], ValidPartProofs):-
 
   %LEM
 checkLine([_, or(P, neg(P)), lem], _).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% this comment is intentional
