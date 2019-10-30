@@ -100,10 +100,9 @@ checkLine([_, P, impel(X,Y)], ValidPartProofs) :-!,
   member([X, Origin, _], ValidPartProofs),!,
   member([Y, imp(Origin,P), _], ValidPartProofs),!.
 
-%  Inte testad!!!!!!
   % negint
-% checkLine([_, neg(P), negint(X,Y)], ValidPartProofs):-
-%   member([[X, P, assumption], [Y, cont, _]], ValidPartProofs).
+checkLine([_, neg(P), negint(X,Y)], ValidPartProofs):-
+  member([[X, P, assumption], [Y, cont, _]], ValidPartProofs).
 
   % negel
 checkLine([_, cont, negel(X,Y)], ValidPartProofs):-
@@ -128,6 +127,8 @@ checkLine([_, neg(P), mt(X,Y)], ValidPartProofs) :-
   member([Y, neg(Grej), _], ValidPartProofs).
 
   % PBC
+checkLine([_, P, pbc(X,Y)], ValidPartProofs):-
+  member([[X, neg(P), assumption], [Y, cont, _]], ValidPartProofs).
 
   %LEM
 checkLine([_, or(P, neg(P)), lem], _).
