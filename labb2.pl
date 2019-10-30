@@ -7,7 +7,7 @@ last([_|T], X) :-
 
 
 
-% Labb 2
+% Labb 2 proofControl
 
 verify(InputFileName) :-
   see(InputFileName),
