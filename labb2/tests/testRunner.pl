@@ -43,29 +43,3 @@ truePrint :-
 
 falsePrint :-
   write(': failed'), nl.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%
