@@ -3,7 +3,13 @@ p.
 [
   [1, p, premise],
   [
-    [2, q, assumption]
+    [2, q, assumption],
+    [4, q, copy(2)],
+    [7, p, copy(1)],
+    [9, and(p,q), andint(7,4)],
+    [
+      [5, z, assumption]
+    ]
   ],
   [3, p , copy(1)]
 ].
