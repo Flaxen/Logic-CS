@@ -1,0 +1,9 @@
+[p].
+p.
+[
+  [1, p, premise],
+  [
+    [2, q, assumption]
+  ],
+  [3, p , copy(1)]
+].
