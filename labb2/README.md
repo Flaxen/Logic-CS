@@ -1,6 +1,8 @@
-# Logic-CS
+# Logic-CS Lab2
 KTH Logic for CS lab course
+Laboration 2
 
+Checks if proofs for Natural Deduction are correct or not
 
 For running tests run:
 $ ./testRunner.bash

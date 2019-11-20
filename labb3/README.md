@@ -1,4 +1,3 @@
-# Logic-CS
+# Logic-CS Lab3
 KTH Logic for CS lab course
-
-Features labs 2 and 3
+Laboration 3
