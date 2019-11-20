@@ -1,7 +1,0 @@
-[imp(a,b), neg(b)].
-neg(a).
-[
-[5, neg(b), premise],
-[34, imp(a,b), premise],
-[-23, neg(a), mt(4, 5)]
-].
