@@ -17,27 +17,79 @@ verify(Input) :-
 %
 % (T,L), S  |-    F
 %             U
-check(T,L,S,U,F) :-
-  write('T: '), write(T), nl,
-  write('L: '), write(L), nl,
-  write('S: '), write(S), nl,
-  write('U: '), write(U), nl,
-  write('F: '), write(F), nl.
+% check(T,L,S,U,F) :-
+%   write('T: '), write(T), nl,
+%   write('L: '), write(L), nl,
+%   write('S: '), write(S), nl,
+%   write('U: '), write(U), nl,
+%   write('F: '), write(F), nl.
+%
+%
 
 
 % To execute: consult(’your_file.pl’). verify(’input.txt’).
 
 % Literals
-%check(_, L, S, [], X)      :- ...
-%check(_, L, S, [], neg(X)) :- ...
+check(_, L, S, [], X) :-
+  member([S, List], L),
+  member(X, List),
+  write(X), write(' part of List('), write(S), write(')'),nl,!.
+
+check(_, L, S, [], neg(X)) :-
+  member([S, List], L),
+  \+member(X, List),
+  write(X), write(' not part of List('), write(S), write(')'),nl,!.
+
 
 % And
-%check(T, L, S, [], and(F,G)) :- ...
+check(_, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
+  check(_, L, S, [], F),
+  check(_, L, S, [], G).
 
 % Or
+  % or1
+check(_, L, S, [], or(F,_)) :- % förut fanns T med. Kan orsaka problem sen?
+  check(_, L, S, [], F),!.
+  % or2
+check(_, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
+  check(_, L, S, [], G).
+
 % AX
+
+
+
+
+
 % EX
 % AG
 % EG
 % EF
 % AF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
