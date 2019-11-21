@@ -17,6 +17,13 @@ verify(Input) :-
 %
 % (T,L), S  |-    F
 %             U
+check(T,L,S,U,F) :-
+  write('T: '), write(T), nl,
+  write('L: '), write(L), nl,
+  write('S: '), write(S), nl,
+  write('U: '), write(U), nl,
+  write('F: '), write(F), nl.
+
 
 % To execute: consult(’your_file.pl’). verify(’input.txt’).
 
