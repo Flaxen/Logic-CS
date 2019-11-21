@@ -1,6 +1,19 @@
 % For SICStus, uncomment line below: (needed for member/2)
 %:- use_module(library(lists)).
 
+
+
+% Help functions
+
+% AX
+% CheckAdj
+checkAdj(_, _, []).
+checkAdj(X, L, [H|T]) :-
+  check(_, L, H, [], X),
+  checkAdj(X, L, T).
+
+
+
 % Load model, initial state and formula from file.
 verify(Input) :-
   see(Input), read(T), read(L), read(S), read(F), seen,
@@ -41,6 +54,9 @@ check(_, L, S, [], neg(X)) :-
   write(X), write(' not part of List('), write(S), write(')'),nl,!.
 
 
+
+
+
 % And
 check(_, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
   check(_, L, S, [], F),
@@ -55,13 +71,34 @@ check(_, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
   check(_, L, S, [], G).
 
 % AX
-
-
-
-
+check(T, L, S, [], ax(X)) :-
+  member([S, List], T),
+  checkAdj(X, L, List),!.
 
 % EX
+check(T, L, S, [], ex(X)) :-
+  member([S, List], T),
+  member(PartS, List),
+  member([PartS, PartList], L),
+  member(X, PartList),!.
+
 % AG
+check(T, L, S, U, ag(X)) :-
+  member(S, U).
+check(T, L, S, U, ag(X)) :-
+  check(_, L, S, [], X),
+  member([S, List], T),
+  member(PartS, List),
+  check(T, L, PartS, [S|U], ag(X)).
+
+
+
+
+
+
+
+
+
 % EG
 % EF
 % AF
