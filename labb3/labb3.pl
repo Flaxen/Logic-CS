@@ -12,6 +12,13 @@ checkAdj(X, L, [H|T]) :-
   check(_, L, H, [], X),
   checkAdj(X, L, T).
 
+% AG
+% CheckAdjB
+checkAdjB(_, _, []).
+checkAdjB(X, L, [H|T]) :-
+  check(_, L, H, [], X),
+  checkAdjB(X, L, T).
+
 
 
 % Load model, initial state and formula from file.
@@ -83,24 +90,40 @@ check(T, L, S, [], ex(X)) :-
   member(X, PartList),!.
 
 % AG
-check(T, L, S, U, ag(X)) :-
-  member(S, U).
-check(T, L, S, U, ag(X)) :-
-  check(_, L, S, [], X),
-  member([S, List], T),
-  member(PartS, List),
-  check(T, L, PartS, [S|U], ag(X)).
+% check(T, L, S, U, ag(X)) :-
+%   findAllConnected(T, S, [], AllConnected),
+%   member(Node, AllConnected),
+%   check(_, L, Node, [], X).
 
-
-
-
-
-
-
+% findAllConnected(T, S, Visited, [PartList|AllConnected]) :-
+%   member([S, List], T),
+%   member(PartList, List),
+%   findAllConnected(T, S, [S|Visited], AllConnected).
+%
 
 
 % EG
+check(_, _, S, U, eg(_)) :-
+  member(S, U).
+check(T, L, S, U, eg(X)) :-
+  \+member(S,U),
+  check(_, L, S, [], X),
+  member([S, List], T),
+  member(PartList, List),
+  check(T, L, PartList, [S|U], eg(X)),!.
+
+
 % EF
+check(_, L, S, U, ef(X)) :-
+  check(_, L, S, U, X).
+check(T, L, S, U, ef(X)) :-
+  \+member(S,U),
+  member([S, List], T),
+  member(PartList, List),
+  check(T, L, PartList, [S|U], ef(X)),!.
+
+
+
 % AF
 
 
