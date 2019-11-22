@@ -117,8 +117,8 @@ check(T, L, S, U, eg(X)) :-
 
 
 % EF
-check(_, L, S, U, ef(X)) :-
-  check(_, L, S, U, X).
+check(_, L, S, _, ef(X)) :-
+  check(_, L, S, [], X).
 check(T, L, S, U, ef(X)) :-
   \+member(S,U),
   member([S, List], T),
