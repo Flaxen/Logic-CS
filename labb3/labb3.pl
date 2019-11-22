@@ -7,6 +7,9 @@
 
 % AX
 % CheckAdj
+%  X - constant/påstående
+%  L - sanningsvärdena för tilstånden
+%   [H|T] - listan med granar
 checkAdj(_, _, []).
 checkAdj(X, L, [H|T]) :-
   check(_, L, H, [], X),
@@ -28,7 +31,7 @@ verify(Input) :-
 
 % check(T, L, S, U, F)
 %     T - The transitions in form of adjacency lists
-%     L - The labeling
+%     L - The labeling saningsvärden
 %     S - Current state
 %     U - Currently recorded states
 %     F - CTL Formula to check.
