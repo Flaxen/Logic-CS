@@ -16,11 +16,20 @@ checkAdj(X, L, [H|T]) :-
   checkAdj(X, L, T).
 
 % AG
-% CheckAdjB
-checkAdjB(_, _, []).
-checkAdjB(X, L, [H|T]) :-
-  check(_, L, H, [], X),
-  checkAdjB(X, L, T).
+% CheckAllNeigh
+% checkAllNeigh(T, L, U, [H|Tail], X):-
+%   member(H, U).
+%   % member([H, List], T),
+
+checkAllNeigh(T, L, U, [H], X) :-
+  check(T, L, H, U, ag(X)).
+
+checkAllNeigh(T, L, U, [H|Tail], X):-
+  check(T, L, H, U, ag(X)),
+  % write('WOOOO: '), write(U),nl,
+  checkAllNeigh(T, L, U, Tail, X).
+
+
 
 
 
@@ -63,10 +72,6 @@ check(_, L, S, [], neg(X)) :-
   \+member(X, List),
   write(X), write(' not part of List('), write(S), write(')'),nl,!.
 
-
-
-
-
 % And
 check(_, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
   check(_, L, S, [], F),
@@ -93,17 +98,12 @@ check(T, L, S, [], ex(X)) :-
   member(X, PartList),!.
 
 % AG
-% check(T, L, S, U, ag(X)) :-
-%   findAllConnected(T, S, [], AllConnected),
-%   member(Node, AllConnected),
-%   check(_, L, Node, [], X).
-
-% findAllConnected(T, S, Visited, [PartList|AllConnected]) :-
-%   member([S, List], T),
-%   member(PartList, List),
-%   findAllConnected(T, S, [S|Visited], AllConnected).
-%
-
+check(_, _, S, U, ag(_)) :-
+  member(S,U).
+check(T, L, S, U, ag(X)) :-
+  check(_, L, S, [], X),
+  member([S, List], T),
+  checkAllNeigh(T, L, [S|U], List, X),!.
 
 % EG
 check(_, _, S, U, eg(_)) :-
@@ -115,7 +115,6 @@ check(T, L, S, U, eg(X)) :-
   member(PartList, List),
   check(T, L, PartList, [S|U], eg(X)),!.
 
-
 % EF
 check(_, L, S, _, ef(X)) :-
   check(_, L, S, [], X).
@@ -125,9 +124,11 @@ check(T, L, S, U, ef(X)) :-
   member(PartList, List),
   check(T, L, PartList, [S|U], ef(X)),!.
 
-
-
 % AF
+% check(_, L, S, [], af(X)) :-
+%   check(_, L, S, [], X).
+% check(T, L, S, U, af(X)) :-
+
 
 
 
