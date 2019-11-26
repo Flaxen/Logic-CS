@@ -24,6 +24,16 @@ checkAllNeigh(T, L, U, [H|Tail], X):-
   check(T, L, H, U, ag(X)),
   checkAllNeigh(T, L, U, Tail, X).
 
+% AF
+checkAllNeighAF(T, L, U, [H], X) :-
+  check(T, L, H, U, af(X)).
+
+checkAllNeighAF(T, L, U, [H|Tail], X) :-
+  check(T, L, H, U, af(X)),
+  checkAllNeighAF(T, L, U, Tail, X).
+
+
+
 
 
 
@@ -93,7 +103,7 @@ check(T, L, S, [], ex(X)) :-
   member([S, List], T),
   member(PartS, List),
   member([PartS, PartList], L),
-  member(X, PartList),!.
+  member(X, PartList),!. % ändra til check
 
 % AG
 check(_, _, S, U, ag(_)) :-
@@ -128,20 +138,21 @@ check(T, L, S, U, ef(X)) :-
   check(T, L, PartList, [S|U], ef(X)),!.
 
 % AF
-%  trasig !!!!!!!!!!!!!!!!!!!!!!!!!
-check(T, L, S, _, af(X)) :-
+check(T, L, S, U, af(X)) :-
+  \+member(S,U),
   check(T, L, S, [], X),!.
   % write('S1: '), write(S), nl,!.
 
 check(T, L, S, U, af(X)) :-
   \+member(S,U),
-  % write('S2: '), write(S), nl,
+  write('S2: '), write(S), nl,
   member([S, List], T),
-  % write('List: '), write(List), nl,
-  member(PartList, List),
+  write('List: '), write(List), nl,
+  % member(PartList, List),
   % write('PartList: '), write(PartList), nl,
-  % write('U: '), write(U), nl,
-  check(T, L, PartList, [S|U], af(X)),!.
+  write('U: '), write(U), nl,
+  checkAllNeighAF(T, L, [S|U], List, X),!.
+  % check(T, L, PartList, [S|U], af(X)),!.
 
 
 
