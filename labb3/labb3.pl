@@ -10,14 +10,8 @@
 %  X - constant/påstående
 %  L - sanningsvärdena för tilstånden
 %   [H|T] - listan med granar
-% checkAdj(_, _, []).
 checkAdj(_, _, _, []).
 
-
-
-% checkAdj(X, L, [H|T]) :-
-%   check(_, L, H, [], X),
-%   checkAdj(X, L, T).
 checkAdj(T, X, L, [H|Tail]) :-
   check(T, L, H, [], X),
   checkAdj(T, X, L, Tail).
@@ -88,10 +82,8 @@ check(T, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
   check(T, L, S, [], G).
 
 % AX
-%  trasig !!!!!!!!!!!!!!!!!!!!
 check(T, L, S, [], ax(X)) :-
   member([S, List], T),
-  % checkAdj(X, L, List),!.
   checkAdj(T, X, L, List),!.
 
 
