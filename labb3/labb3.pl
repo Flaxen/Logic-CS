@@ -10,23 +10,24 @@
 %  X - constant/påstående
 %  L - sanningsvärdena för tilstånden
 %   [H|T] - listan med granar
-checkAdj(_, _, []).
-checkAdj(X, L, [H|T]) :-
-  check(_, L, H, [], X),
-  checkAdj(X, L, T).
+% checkAdj(_, _, []).
+checkAdj(_, _, _, []).
+
+
+
+% checkAdj(X, L, [H|T]) :-
+%   check(_, L, H, [], X),
+%   checkAdj(X, L, T).
+checkAdj(T, X, L, [H|T]) :-
+  check(T, L, H, [], X),
+  checkAdj(T, X, L, T).
 
 % AG
-% CheckAllNeigh
-% checkAllNeigh(T, L, U, [H|Tail], X):-
-%   member(H, U).
-%   % member([H, List], T),
-
 checkAllNeigh(T, L, U, [H], X) :-
   check(T, L, H, U, ag(X)).
 
 checkAllNeigh(T, L, U, [H|Tail], X):-
   check(T, L, H, U, ag(X)),
-  % write('WOOOO: '), write(U),nl,
   checkAllNeigh(T, L, U, Tail, X).
 
 
@@ -64,34 +65,39 @@ verify(Input) :-
 % Literals
 check(_, L, S, [], X) :-
   member([S, List], L),
-  member(X, List),
-  write(X), write(' part of List('), write(S), write(')'),nl,!.
+  member(X, List),!.
+  % write(X), write(' part of List('), write(S), write(')'),nl,!.
 
 check(_, L, S, [], neg(X)) :-
   member([S, List], L),
-  \+member(X, List),
-  write(X), write(' not part of List('), write(S), write(')'),nl,!.
+  \+member(X, List),!.
+  % write(X), write(' not part of List('), write(S), write(')'),nl,!.
 
 % And
-check(_, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
-  check(_, L, S, [], F),
-  check(_, L, S, [], G).
+check(T, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
+  % write('Enter AND'),
+  check(T, L, S, [], F),
+  check(T, L, S, [], G).
 
 % Or
   % or1
-check(_, L, S, [], or(F,_)) :- % förut fanns T med. Kan orsaka problem sen?
-  check(_, L, S, [], F),!.
+check(T, L, S, [], or(F,_)) :- % förut fanns T med. Kan orsaka problem sen?
+  check(T, L, S, [], F),!.
   % or2
-check(_, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
-  check(_, L, S, [], G).
+check(T, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
+  check(T, L, S, [], G).
 
 % AX
+%  trasig !!!!!!!!!!!!!!!!!!!!
 check(T, L, S, [], ax(X)) :-
   member([S, List], T),
-  checkAdj(X, L, List),!.
+  % checkAdj(X, L, List),!.
+  checkAdj(T, X, L, List),!.
+
 
 % EX
 check(T, L, S, [], ex(X)) :-
+  % write('Enter EX'),
   member([S, List], T),
   member(PartS, List),
   member([PartS, PartList], L),
@@ -99,25 +105,30 @@ check(T, L, S, [], ex(X)) :-
 
 % AG
 check(_, _, S, U, ag(_)) :-
-  member(S,U).
+  % write('Enter AG'),
+  member(S,U),!.
+
 check(T, L, S, U, ag(X)) :-
-  check(_, L, S, [], X),
+  % write('Enter AG'),
+  check(T, L, S, [], X),
   member([S, List], T),
   checkAllNeigh(T, L, [S|U], List, X),!.
 
 % EG
 check(_, _, S, U, eg(_)) :-
   member(S, U).
+
 check(T, L, S, U, eg(X)) :-
   \+member(S,U),
-  check(_, L, S, [], X),
+  check(T, L, S, [], X),
   member([S, List], T),
   member(PartList, List),
   check(T, L, PartList, [S|U], eg(X)),!.
 
 % EF
-check(_, L, S, _, ef(X)) :-
-  check(_, L, S, [], X).
+check(T, L, S, _, ef(X)) :-
+  check(T, L, S, [], X).
+
 check(T, L, S, U, ef(X)) :-
   \+member(S,U),
   member([S, List], T),
@@ -125,9 +136,22 @@ check(T, L, S, U, ef(X)) :-
   check(T, L, PartList, [S|U], ef(X)),!.
 
 % AF
-% check(_, L, S, [], af(X)) :-
-%   check(_, L, S, [], X).
-% check(T, L, S, U, af(X)) :-
+%  trasig !!!!!!!!!!!!!!!!!!!!!!!!!
+check(T, L, S, _, af(X)) :-
+  check(T, L, S, [], X),!.
+  % write('S1: '), write(S), nl,!.
+
+check(T, L, S, U, af(X)) :-
+  \+member(S,U),
+  % write('S2: '), write(S), nl,
+  member([S, List], T),
+  % write('List: '), write(List), nl,
+  member(PartList, List),
+  % write('PartList: '), write(PartList), nl,
+  % write('U: '), write(U), nl,
+  check(T, L, PartList, [S|U], af(X)),!.
+
+
 
 
 
