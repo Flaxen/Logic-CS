@@ -7,9 +7,6 @@
 
 % AX
 % CheckAdj
-%  X - constant/påstående
-%  L - sanningsvärdena för tilstånden
-%   [H|T] - listan med granar
 checkAdj(_, _, _, []).
 
 checkAdj(T, X, L, [H|Tail]) :-
@@ -70,25 +67,23 @@ verify(Input) :-
 check(_, L, S, [], X) :-
   member([S, List], L),
   member(X, List),!.
-  % write(X), write(' part of List('), write(S), write(')'),nl,!.
 
 check(_, L, S, [], neg(X)) :-
   member([S, List], L),
   \+member(X, List),!.
-  % write(X), write(' not part of List('), write(S), write(')'),nl,!.
+
 
 % And
-check(T, L, S, [], and(F,G)) :- % förut fanns T med. Kan orsaka problem sen?
-  % write('Enter AND'),
+check(T, L, S, [], and(F,G)) :-
   check(T, L, S, [], F),
   check(T, L, S, [], G).
 
 % Or
   % or1
-check(T, L, S, [], or(F,_)) :- % förut fanns T med. Kan orsaka problem sen?
+check(T, L, S, [], or(F,_)) :-
   check(T, L, S, [], F),!.
   % or2
-check(T, L, S, [], or(_,G)) :- % förut fanns T med. Kan orsaka problem sen?
+check(T, L, S, [], or(_,G)) :-
   check(T, L, S, [], G).
 
 % AX
@@ -99,19 +94,15 @@ check(T, L, S, [], ax(X)) :-
 
 % EX
 check(T, L, S, [], ex(X)) :-
-  % write('Enter EX'),
   member([S, List], T),
   member(PartS, List),
-  member([PartS, PartList], L),
-  member(X, PartList),!. % ändra til check
+  check(T, L, PartS, [], X),!.
 
 % AG
 check(_, _, S, U, ag(_)) :-
-  % write('Enter AG'),
   member(S,U),!.
 
 check(T, L, S, U, ag(X)) :-
-  % write('Enter AG'),
   check(T, L, S, [], X),
   member([S, List], T),
   checkAllNeigh(T, L, [S|U], List, X),!.
@@ -141,18 +132,11 @@ check(T, L, S, U, ef(X)) :-
 check(T, L, S, U, af(X)) :-
   \+member(S,U),
   check(T, L, S, [], X),!.
-  % write('S1: '), write(S), nl,!.
 
 check(T, L, S, U, af(X)) :-
   \+member(S,U),
-  write('S2: '), write(S), nl,
   member([S, List], T),
-  write('List: '), write(List), nl,
-  % member(PartList, List),
-  % write('PartList: '), write(PartList), nl,
-  write('U: '), write(U), nl,
   checkAllNeighAF(T, L, [S|U], List, X),!.
-  % check(T, L, PartList, [S|U], af(X)),!.
 
 
 
