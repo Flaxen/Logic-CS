@@ -18,9 +18,9 @@ checkAdj(_, _, _, []).
 % checkAdj(X, L, [H|T]) :-
 %   check(_, L, H, [], X),
 %   checkAdj(X, L, T).
-checkAdj(T, X, L, [H|T]) :-
+checkAdj(T, X, L, [H|Tail]) :-
   check(T, L, H, [], X),
-  checkAdj(T, X, L, T).
+  checkAdj(T, X, L, Tail).
 
 % AG
 checkAllNeigh(T, L, U, [H], X) :-
