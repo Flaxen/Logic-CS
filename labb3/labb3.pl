@@ -137,34 +137,3 @@ check(T, L, S, U, af(X)) :-
   \+member(S,U),
   member([S, List], T),
   checkAllNeighAF(T, L, [S|U], List, X),!.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%
