@@ -1,8 +1,6 @@
 % For SICStus, uncomment line below: (needed for member/2)
 %:- use_module(library(lists)).
 
-
-
 % Help functions
 
 % AX
@@ -29,12 +27,6 @@ checkAllNeighAF(T, L, U, [H|Tail], X) :-
   check(T, L, H, U, af(X)),
   checkAllNeighAF(T, L, U, Tail, X).
 
-
-
-
-
-
-
 % Load model, initial state and formula from file.
 verify(Input) :-
   see(Input), read(T), read(L), read(S), read(F), seen,
@@ -59,7 +51,6 @@ verify(Input) :-
 %   write('F: '), write(F), nl.
 %
 %
-
 
 % To execute: consult(’your_file.pl’). verify(’input.txt’).
 
@@ -90,7 +81,6 @@ check(T, L, S, [], or(_,G)) :-
 check(T, L, S, [], ax(X)) :-
   member([S, List], T),
   checkAdj(T, X, L, List),!.
-
 
 % EX
 check(T, L, S, [], ex(X)) :-
